@@ -35,10 +35,6 @@ def startDockerService(INSTANCE_URL, INSTANCE_USERNAME, BROWSER, AGENT_ID):
 		'USER_FIELD_ID=user_name',
 		'PASSWORD_FIELD_ID=user_password',
 		f'SECRET_PATH=/run/secrets/{SECRET_NAME}', # TODO make this cross platform
-		'HEADLESS_VALIDATION_PAGE=ui_page.do?sys_id=d21d8c0b772220103fe4b5b2681061a6',
-		'VP_VALIDATION_ID=headless_vp_validation',
-		'VP_HAS_ROLE_ID=headless_vp_has_role',
-		'VP_SUCCESS_ID=headless_vp_success',
 		'TEST_RUNNER_BANNER_ID=test_runner_banner',
 		'HEARTBEAT_ENABLED=true',
 		'HEARTBEAT_URI=/api/now/atf_agent/online',

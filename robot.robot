@@ -13,7 +13,6 @@ Open browser
     Input Username
     Input Password
     Submit Credentials
-    Go To Headless Validation Page
     Go To Test Runner Page
     Wait Until Keyword Succeeds    ${TIMEOUT_MINS} minute    1 minute     Is Agent Offline
     Log    The Client Test Runner is offline shutting down container    console=${True}
@@ -25,18 +24,6 @@ Open Browser To Login Page
     Open Browser    ${LOGIN URL}    ${BROWSER}  options=${BROWSER_OPTIONS}
     # Saw some weirdness with the login page so wait some extra time for the page to settle
     Sleep    2s
-
-Go To Headless Validation Page
-    # Test page should display basic message
-    ${HEADLESS_VALIDATION_URL}=  Catenate   ${INSTANCE_URL}/${HEADLESS_VALIDATION_PAGE}
-    Log    Going to entry: ${HEADLESS_VALIDATION_URL}    console=${True}
-    Go To   ${HEADLESS_VALIDATION_URL}
-    # Confirm it can browse to the page
-    Page Should Contain Element    id:${VP_VALIDATION_ID}  Was unable to authenticate the ServiceNow user, please check username and password is correct. (Less likely) the validation page URL is incorrect: ${HEADLESS_VALIDATION_URL}
-    # Validate it has the correct roles
-    Page Should Contain Element    id:${VP_HAS_ROLE_ID}  The user does not have the right roles (atf_test_admin, atf_test_designer, or admin)
-    # Add any custom validation here and on the validation page
-    Page Should Contain Element    id:${VP_SUCCESS_ID}  The validation page did not fully load to validate the user: ${HEADLESS_VALIDATION_URL}
 
 Go To Test Runner Page
     ${TEST RUNNER URL}=  Catenate   ${INSTANCE_URL}/${RUNNER_URL}&sys_atf_agent=${AGENT_ID}
@@ -80,14 +67,13 @@ Is Agent Offline
     ${header}=    Create Dictionary   Authorization    Basic ${userpass}
 
     Create Session    heartbeat    ${INSTANCE_URL}   verify=true
-    ${response}=    GET On Session    heartbeat    ${HEARTBEAT_URI}    params=id=${AGENT_ID}    headers=${header}
+    ${response}=    GET On Session    heartbeat    /api/now/table/sys_atf_agent/${AGENT_ID}    headers=${header}
 
     ${DATETIME}=    Get Current Date    UTC    result_format=datetime   exclude_millis=true
     Log    ${DATETIME} | Heartbeat Response: ${response.json()}    console=${True}
 
-
     Dictionary Should Contain Key    ${response.json()}    result
-    Dictionary Should Contain Item    ${response.json()['result']}    online    false
+    Dictionary Should Contain Item    ${response.json()['result']}    status    offline
 
 Assign Variables
     Environment Variable Should Be Set  AGENT_ID  The agent ID should be auto-generated from the instance
@@ -102,10 +88,6 @@ Assign Variables
     Environment Variable Should Be Set  LOGIN_BUTTON_ID  There was no login buttun element idspecified in the request (add or set property: sn_atf.headless.login_button_id)
     Environment Variable Should Be Set  USER_FIELD_ID  There was no username element specified in the request (add or set property: sn_atf.headless.user_field_id)
     Environment Variable Should Be Set  PASSWORD_FIELD_ID  There was no password element specified in the request (add or set property: sn_atf.headless.password_field_id)
-    Environment Variable Should Be Set  HEADLESS_VALIDATION_PAGE  There was no validation page specified in the request (add or set property: sn_atf.headless.validation_page)
-    Environment Variable Should Be Set  VP_VALIDATION_ID  There was no validation element id specified in the request (add or set property: sn_atf.headless.validation_id)
-    Environment Variable Should Be Set  VP_HAS_ROLE_ID  There was no role element id specified in the request (add or set property: sn_atf.headless.vp_has_role_id)
-    Environment Variable Should Be Set  VP_SUCCESS_ID  There was no success element id specified in the request (add or set property: sn_atf.headless.vp_success_id)
     Environment Variable Should Be Set  TEST_RUNNER_BANNER_ID   There was no banner element id page specified in the request (add or set property: sn_atf.headless.runner_banner_id)
 
     ${AGENT_ID}=    Get Environment Variable    AGENT_ID
@@ -120,10 +102,6 @@ Assign Variables
     ${LOGIN_BUTTON_ID}=    Get Environment Variable    LOGIN_BUTTON_ID
     ${USER_FIELD_ID}=    Get Environment Variable    USER_FIELD_ID
     ${PASSWORD_FIELD_ID}=    Get Environment Variable    PASSWORD_FIELD_ID
-    ${HEADLESS_VALIDATION_PAGE}=    Get Environment Variable    HEADLESS_VALIDATION_PAGE
-    ${VP_VALIDATION_ID}=    Get Environment Variable    VP_VALIDATION_ID
-    ${VP_HAS_ROLE_ID}=    Get Environment Variable    VP_HAS_ROLE_ID
-    ${VP_SUCCESS_ID}=    Get Environment Variable    VP_SUCCESS_ID
     ${TEST_RUNNER_BANNER_ID}=    Get Environment Variable    TEST_RUNNER_BANNER_ID
     ${HEARTBEAT_ENABLED}=   Get Environment Variable    HEARTBEAT_ENABLED
     ${HEARTBEAT_URI}=    Get Environment Variable    HEARTBEAT_URI
@@ -140,10 +118,6 @@ Assign Variables
     Set Global Variable    ${LOGIN_BUTTON_ID}
     Set Global Variable    ${USER_FIELD_ID}
     Set Global Variable    ${PASSWORD_FIELD_ID}
-    Set Global Variable    ${HEADLESS_VALIDATION_PAGE}
-    Set Global Variable    ${VP_VALIDATION_ID}
-    Set Global Variable    ${VP_HAS_ROLE_ID}
-    Set Global Variable    ${VP_SUCCESS_ID}
     Set Global Variable    ${TEST_RUNNER_BANNER_ID}
     Set Global Variable    ${HEARTBEAT_ENABLED}
     Set Global Variable    ${HEARTBEAT_URI}
@@ -174,14 +148,6 @@ Verify Variables
     Log    USER_FIELD_ID is ${USER_FIELD_ID}  console=${True}
     Variable Should Exist   ${PASSWORD_FIELD_ID}
     Log    PASSWORD_FIELD_ID is ${PASSWORD_FIELD_ID}  console=${True}
-    Variable Should Exist   ${HEADLESS_VALIDATION_PAGE}
-    Log    HEADLESS_VALIDATION_PAGE is ${HEADLESS_VALIDATION_PAGE}  console=${True}
-    Variable Should Exist   ${VP_VALIDATION_ID}
-    Log    VP_VALIDATION_ID is ${VP_VALIDATION_ID}  console=${True}
-    Variable Should Exist   ${VP_HAS_ROLE_ID}
-    Log    VP_HAS_ROLE_ID is ${VP_HAS_ROLE_ID}  console=${True}
-    Variable Should Exist   ${VP_SUCCESS_ID}
-    Log    VP_SUCCESS_ID is ${VP_SUCCESS_ID}  console=${True}
     Variable Should Exist   ${TEST_RUNNER_BANNER_ID}
     Log    TEST_RUNNER_BANNER_ID is ${TEST_RUNNER_BANNER_ID}  console=${True}
     Variable Should Exist   ${HEARTBEAT_ENABLED}
