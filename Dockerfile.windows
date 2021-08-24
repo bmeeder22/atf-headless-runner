@@ -17,7 +17,7 @@ WORKDIR /
 
 RUN choco install -y --ignore-checksums googlechrome
 
-RUN pip install robotframework webdrivermanager robotframework-seleniumlibrary robotframework-requests 
+RUN pip install robotframework webdrivermanager robotframework-seleniumlibrary robotframework-requests
 
 RUN set PATH='C:\Users\ContainerAdministrator\AppData\Local\rasjani\WebDriverManager\bin;C:\Python\Scripts;C:\Program Files\Google\Chrome\Application;%PATH%'
 RUN setx path "%path%;C:\Users\ContainerAdministrator\AppData\Local\rasjani\WebDriverManager\bin;C:\Python\Scripts;C:\Program Files\Google\Chrome\Application;"
