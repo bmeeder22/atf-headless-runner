@@ -36,7 +36,7 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo ap
 
 # Install Robot Framework
 RUN pip install --upgrade pip && \
-    pip install robotframework webdrivermanager robotframework-seleniumlibrary webdrivermanager robotframework-requests
+    pip install robotframework webdrivermanager robotframework-seleniumlibrary webdrivermanager robotframework-requests msedge-selenium-tools
 
 # Configure RobotFramework
 RUN webdrivermanager firefox chrome --linkpath /usr/local/bin && \
@@ -44,6 +44,7 @@ RUN webdrivermanager firefox chrome --linkpath /usr/local/bin && \
     rm -f ${CHROME_RELEASE}.deb && PATH=$PATH:${SERVICENOW_HOME}/.local/bin
 
 COPY robot.robot $SERVICENOW_HOME
+COPY EdgePlugin.py /usr/local/bin
 
 # Run as non-root user
 USER ${user}

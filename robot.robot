@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation    Script to startup a headless client test runner
-Library    SeleniumLibrary
+Library    SeleniumLibrary    plugins=EdgePlugin
 Library    OperatingSystem
 Library    RequestsLibrary
 Library    Collections

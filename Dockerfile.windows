@@ -15,11 +15,11 @@ WORKDIR /Fonts/
 RUN powershell -c .\Add-Font.ps1 Fonts
 WORKDIR /
 
-RUN choco install -y googlechrome
+RUN choco install -y --ignore-checksums googlechrome
 
-RUN pip install robotframework webdrivermanager robotframework-seleniumlibrary robotframework-requests
+RUN pip install robotframework webdrivermanager robotframework-seleniumlibrary robotframework-requests 
 
-RUN set PATH='C:\Users\ContainerAdministrator\AppData\Local\rasjani\WebDriverManager\bin;C:\Python\Scripts;C:\Program Files\Google\Chrome\Application;%PATH%
+RUN set PATH='C:\Users\ContainerAdministrator\AppData\Local\rasjani\WebDriverManager\bin;C:\Python\Scripts;C:\Program Files\Google\Chrome\Application;%PATH%'
 RUN setx path "%path%;C:\Users\ContainerAdministrator\AppData\Local\rasjani\WebDriverManager\bin;C:\Python\Scripts;C:\Program Files\Google\Chrome\Application;"
 
 RUN powershell -Command \
@@ -29,6 +29,16 @@ RUN powershell -Command \
   New-ItemProperty "HKCU:\Software\Google\Chrome\BLBeacon" -Name version -Value "$chromeVersion" -Force;
 
 RUN webdrivermanager chrome
+
+COPY MicrosoftEdgeEnterpriseX64.msi /
+RUN powershell -Command Start-Process MicrosoftEdgeEnterpriseX64.msi -ArgumentList '/quiet' -Wait
+
+RUN pip install msedge-selenium-tools
+
+COPY msedgedriver.exe /
+
+COPY EdgePlugin.py C:\\python36\\lib
+COPY test.robot /
 
 COPY robot.robot /
 
