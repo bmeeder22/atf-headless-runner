@@ -43,7 +43,6 @@ data = response.json()
 print(data)
 
 BROWSER = data["result"]["browser_name"]
-
 assert EXPECTED_BROWSER_NAME == BROWSER, f'OS should have been { EXPECTED_BROWSER_NAME } but was { BROWSER }'
 
 OS = data["result"]["os_name"]

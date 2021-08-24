@@ -36,9 +36,7 @@ RUN powershell -Command Start-Process MicrosoftEdgeEnterpriseX64.msi -ArgumentLi
 RUN pip install msedge-selenium-tools
 
 COPY msedgedriver.exe /
-
 COPY EdgePlugin.py C:\\python36\\lib
-COPY test.robot /
 
 COPY robot.robot /
 
