@@ -1,6 +1,10 @@
 #!/usr/bin/python
+<<<<<<< HEAD
 # python3 start.py <instance url> <sn username> <browser name>
 # <browser name> can be headlesschrome, headlessfirefox, or on Windows Edge
+=======
+# python3 start.py http://192.168.1.10:8080 admin headlesschrome
+>>>>>>> master
 
 import sys
 import docker
