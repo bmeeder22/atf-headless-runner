@@ -47,6 +47,6 @@ jobs:
           URL: https://atfheadlessrunner.service-now.com
 
       - name: Edge Test
-        run: python test.py ${{ env.URL }} ${{ secrets.TESTING_INSTANCE_PASSWORD }} headlesschrome Edge Windows
+        run: python test.py ${{ env.URL }} ${{ secrets.TESTING_INSTANCE_PASSWORD }} Edge Edge Windows
         env:
           URL: https://atfheadlessrunner.service-now.com

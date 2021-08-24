@@ -43,13 +43,13 @@ data = response.json()
 print(data)
 
 BROWSER = data["result"]["browser_name"]
-assert EXPECTED_BROWSER_NAME == BROWSER, f'OS should have been { EXPECTED_BROWSER_NAME } but was { BROWSER }'
+assert EXPECTED_BROWSER_NAME == BROWSER, f'Browser should have been { EXPECTED_BROWSER_NAME } but was { BROWSER }'
 
 OS = data["result"]["os_name"]
 assert OS == EXPECTED_OS, f'OS should have been { EXPECTED_OS } but was { OS }'
 
 STATUS = data["result"]["status"]
-assert "online" == STATUS, f'OS should have been online but was {STATUS}'
+assert "online" == STATUS, f'Status should have been online but was {STATUS}'
 
 HEADLESS = data["result"]["headless"]
 assert "true" == HEADLESS, f'Headless should have been True but was False'
