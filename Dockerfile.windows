@@ -32,7 +32,7 @@ RUN webdrivermanager chrome
 
 # COPY MicrosoftEdgeEnterpriseX64.msi /
 # RUN powershell -Command Start-Process MicrosoftEdgeEnterpriseX64.msi -ArgumentList '/quiet' -Wait
-RUN choco install microsoft-edge
+RUN choco install -y microsoft-edge
 
 RUN pip install msedge-selenium-tools
 
