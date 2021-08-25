@@ -36,7 +36,7 @@ RUN choco install microsoft-edge
 
 RUN pip install msedge-selenium-tools
 
-RUN powershell -Command Invoke-WebRequest -Uri https://msedgewebdriverstorage.blob.core.windows.net/edgewebdriver/79.0.309.71/edgedriver_win64.zip -OutFile C:\msedgedriver.exe
+COPY msedgedriver.exe /
 
 COPY EdgePlugin.py C:\\python36\\lib
 
