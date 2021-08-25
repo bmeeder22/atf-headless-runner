@@ -30,12 +30,14 @@ RUN powershell -Command \
 
 RUN webdrivermanager chrome
 
-COPY MicrosoftEdgeEnterpriseX64.msi /
-RUN powershell -Command Start-Process MicrosoftEdgeEnterpriseX64.msi -ArgumentList '/quiet' -Wait
+# COPY MicrosoftEdgeEnterpriseX64.msi /
+# RUN powershell -Command Start-Process MicrosoftEdgeEnterpriseX64.msi -ArgumentList '/quiet' -Wait
+RUN choco install microsoft-edge
 
 RUN pip install msedge-selenium-tools
 
-COPY msedgedriver.exe /
+RUN powershell -Command Invoke-WebRequest -Uri https://msedgewebdriverstorage.blob.core.windows.net/edgewebdriver/79.0.309.71/edgedriver_win64.zip -OutFile C:\msedgedriver.exe
+
 COPY EdgePlugin.py C:\\python36\\lib
 
 COPY robot.robot /
