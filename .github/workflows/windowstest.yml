@@ -25,6 +25,9 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      - name: List Images
+        run: docker images
+
       - name: Build the Image
         run: docker build -f Dockerfile.windows -t atf_headless_runner:latest .
 
