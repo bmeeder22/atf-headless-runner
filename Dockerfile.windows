@@ -16,7 +16,6 @@ RUN powershell -c .\Add-Font.ps1 Fonts
 WORKDIR /
 
 RUN choco install -y --ignore-checksums googlechrome
-RUN choco install -y firefox
 
 RUN pip install robotframework webdrivermanager robotframework-seleniumlibrary robotframework-requests
 
@@ -29,7 +28,7 @@ RUN powershell -Command \
   New-Item "HKCU:\Software\Google\Chrome\BLBeacon" -Force ; \
   New-ItemProperty "HKCU:\Software\Google\Chrome\BLBeacon" -Name version -Value "$chromeVersion" -Force;
 
-RUN webdrivermanager chrome firefox
+RUN webdrivermanager chrome
 
 # COPY MicrosoftEdgeEnterpriseX64.msi /
 # RUN powershell -Command Start-Process MicrosoftEdgeEnterpriseX64.msi -ArgumentList '/quiet' -Wait
