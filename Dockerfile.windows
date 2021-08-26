@@ -28,16 +28,13 @@ RUN powershell -Command \
   New-Item "HKCU:\Software\Google\Chrome\BLBeacon" -Force ; \
   New-ItemProperty "HKCU:\Software\Google\Chrome\BLBeacon" -Name version -Value "$chromeVersion" -Force;
 
-RUN webdrivermanager chrome
+RUN webdrivermanager chrome --downloadpath C:\\
 
-# COPY MicrosoftEdgeEnterpriseX64.msi /
-# RUN powershell -Command Start-Process MicrosoftEdgeEnterpriseX64.msi -ArgumentList '/quiet' -Wait
 RUN choco install -y microsoft-edge
 
 RUN pip install msedge-selenium-tools
 
-RUN powershell -c Invoke-WebRequest -Uri https://msedgewebdriverstorage.blob.core.windows.net/edgewebdriver/92.0.902.78/edgedriver_win64.zip -OutFile edgedriver_win64.zip
-RUN powershell -c Expand-Archive -Path edgedriver_win64.zip -DestinationPath C:\\
+RUN webdrivermanager edgechromium --downloadpath C:\\
 
 COPY EdgePlugin.py C:\\python36\\lib
 
